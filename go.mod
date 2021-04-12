@@ -7,3 +7,5 @@ require (
 	gorm.io/driver/postgres v1.0.8
 	gorm.io/gorm v1.21.6
 )
+
+// +heroku goVersion go1.16
