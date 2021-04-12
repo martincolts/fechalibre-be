@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres:12
+    container_name: go-testing-db
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: testing
+      POSTGRES_DB: testing
+      POSTGRES_USER: testing
