@@ -5,7 +5,18 @@ import (
 	"gorm.io/gorm"
 )
 
-func ConfigDb() (db *gorm.DB, err error) {
+type Database struct {
+	db *gorm.DB
+}
+
+func NewDatabase() *Database {
+	var database = &Database{}
+	database.ConfigDb()
+	return database
+}
+
+func (database *Database) ConfigDb() {
 	dsn := "host=localhost user=testing password=testing dbname=testing port=5432"
-	return gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	database.db = db
 }

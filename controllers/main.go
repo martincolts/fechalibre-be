@@ -4,12 +4,13 @@ import (
 	"fmt"
 
 	"tincho.example/controllers/middlewares"
+	"tincho.example/injector"
 	"tincho.example/services"
 
 	"github.com/gin-gonic/gin"
 )
 
-func Config(r *gin.Engine) {
+func Config(e *injector.Event, r *gin.Engine) {
 	fmt.Println("loading config")
 
 	public := r.Group("/public")
@@ -21,5 +22,6 @@ func Config(r *gin.Engine) {
 	private.Use(middlewares.Authorize())
 	{
 		private.GET("/validToken", services.Ping())
+		private.POST("/category", InsertCategory(e))
 	}
 }

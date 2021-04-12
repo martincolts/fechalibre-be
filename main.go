@@ -2,12 +2,10 @@ package main
 
 import (
 	"fmt"
-	"time"
-
-	"tincho.example/controllers"
-	"tincho.example/database"
 
 	"github.com/gin-gonic/gin"
+	"tincho.example/controllers"
+	"tincho.example/injector"
 )
 
 func main() {
@@ -18,27 +16,10 @@ func main() {
 			"message": "pong",
 		})
 	})
-	controllers.Config(r)
-	db, err := database.ConfigDb()
-	if err != nil {
-		fmt.Errorf("this was an error to connect to the database", err)
-	}
-	db.AutoMigrate(&database.Player{})
-	db.AutoMigrate(&database.Category{})
-	// var category = database.Category{Name: "Another name"}
-	// result := db.Create(&category)
+	e := injector.InitializeEvent()
+	e.Start()
 
-	var player = &database.Player{
-		Created:   time.Now().Unix(),
-		Birthdate: 0,
-		Name:      "Martin",
-		Lastname:  "Lopez",
-		DNI:       "34421478",
-	}
-
-	result := db.Create(player)
-
-	fmt.Println("ERROR", result.Error)
+	controllers.Config(e, r)
 	r.Run()
 
 }
