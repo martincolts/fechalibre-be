@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"tincho.example/controllers"
 	"tincho.example/database"
@@ -24,8 +25,20 @@ func main() {
 	}
 	db.AutoMigrate(&database.Player{})
 	db.AutoMigrate(&database.Category{})
-	var category = database.Category{Name: "Name"}
-	db.Create(category)
+	// var category = database.Category{Name: "Another name"}
+	// result := db.Create(&category)
+
+	var player = &database.Player{
+		Created:   time.Now().Unix(),
+		Birthdate: 0,
+		Name:      "Martin",
+		Lastname:  "Lopez",
+		DNI:       "34421478",
+	}
+
+	result := db.Create(player)
+
+	fmt.Println("ERROR", result.Error)
 	r.Run()
 
 }
