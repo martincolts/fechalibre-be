@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"tincho.example/controllers"
+	"tincho.example/database"
 	"tincho.example/injector"
 )
 
@@ -18,6 +19,13 @@ func main() {
 	})
 	e := injector.InitializeEvent()
 	e.Start()
+
+	e.GetDatabase().GetConnection().AutoMigrate(
+		&database.Player{},
+		&database.Category{},
+	)
+
+	addAdminUser(e)
 
 	controllers.Config(e, r)
 	r.Run()

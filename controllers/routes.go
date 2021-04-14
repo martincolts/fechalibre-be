@@ -16,6 +16,7 @@ func Config(e *injector.Event, r *gin.Engine) {
 	public := r.Group("/public")
 	{
 		public.GET("/ping", services.Ping())
+		public.POST("/login", login(e))
 	}
 
 	private := r.Group("/internal")
@@ -23,5 +24,8 @@ func Config(e *injector.Event, r *gin.Engine) {
 	{
 		private.GET("/validToken", services.Ping())
 		private.POST("/category", InsertCategory(e))
+		private.POST("/player", insertPlayer(e))
+		private.GET("/player/:id", getPlayerById(e))
+		private.GET("/player", getAllPlayers(e))
 	}
 }

@@ -10,8 +10,10 @@ import (
 func InitializeEvent() *injector.Event {
 	wire.Build(
 		database.NewCategoryRepo,
-		services.NewCategoryService,
+		database.NewPlayerRepo,
 		database.NewDatabase,
+		services.NewCategoryService,
+		services.NewPlayerService,
 		injector.NewEvent,
 	)
 	return &injector.Event{}

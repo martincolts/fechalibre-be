@@ -20,3 +20,7 @@ func (database *Database) ConfigDb() {
 	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	database.db = db
 }
+
+func (database *Database) GetConnection() *gorm.DB {
+	return database.db
+}
