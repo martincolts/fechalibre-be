@@ -5,6 +5,7 @@ import (
 
 	"tincho.example/controllers/middlewares"
 	"tincho.example/injector"
+	"tincho.example/security"
 	"tincho.example/services"
 
 	"github.com/gin-gonic/gin"
@@ -27,5 +28,14 @@ func Config(e *injector.Event, r *gin.Engine) {
 		private.POST("/player", insertPlayer(e))
 		private.GET("/player/:id", getPlayerById(e))
 		private.GET("/player", getAllPlayers(e))
+	}
+
+	admin := r.Group("/admin")
+	admin.Use(middlewares.AdminAuthorize())
+	{
+		admin.GET("/verify", func(c *gin.Context) {
+			user, _ := security.GetUserFromToken(c)
+			c.JSON(200, gin.H{"data": "you are admin", "user": user})
+		})
 	}
 }
