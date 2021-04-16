@@ -13,7 +13,7 @@ var adminPlayer database.Player = database.Player{
 	Name:      "admin",
 	Lastname:  "admin",
 	DNI:       "dniAdmin",
-	Password:  "adminPassword",
+	Password:  "i3mTiOgOBp5B",
 	Role:      database.ADMIN,
 	Username:  "admin",
 }

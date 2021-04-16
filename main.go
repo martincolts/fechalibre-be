@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"tincho.example/controllers"
@@ -17,7 +18,14 @@ func main() {
 			"message": "pong",
 		})
 	})
-	e := injector.InitializeEvent()
+
+	var filePath string
+	if len(os.Args) == 2 {
+		filePath = os.Args[1]
+	} else {
+		filePath = "from os vars"
+	}
+	e := injector.InitializeEvent(filePath)
 	e.Start()
 
 	e.GetDatabase().GetConnection().AutoMigrate(

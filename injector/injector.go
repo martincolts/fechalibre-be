@@ -1,6 +1,7 @@
 package injector
 
 import (
+	"tincho.example/conf"
 	"tincho.example/database"
 	"tincho.example/services"
 )
@@ -39,8 +40,9 @@ func (e Event) GetDatabase() *database.Database {
 	return e.database
 }
 
-func InitializeEvent() *Event {
-	databaseDatabase := database.NewDatabase()
+func InitializeEvent(filePath string) *Event {
+	confConf := conf.NewConf(filePath)
+	databaseDatabase := database.NewDatabase(confConf)
 	categoryRepo := database.NewCategoryRepo(databaseDatabase)
 	categoryService := services.NewCategoryService(categoryRepo)
 	playerRepo := database.NewPlayerRepo(databaseDatabase)
