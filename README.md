@@ -11,6 +11,12 @@ A su vez, existiran usuarios "ADMIN" que podran cargar partidos como asi tambien
 
 ## Buildear el proyecto.
 
+Buscar las dependencias
+
+```
+go mod tidy
+'''
+
 El proyecto se buildea con el siguiente commando/
 
 ```
@@ -22,4 +28,9 @@ Una vez buildeado se corre con el siguiente commando
 
 ```
 ./tincho.example
+```
+
+correrlo localmente 
+```
+./tincho.example conf-dev.yam
 ```

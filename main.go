@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"tincho.example/controllers"
 	"tincho.example/database"
@@ -13,6 +14,7 @@ import (
 func main() {
 	fmt.Println("hola mundo")
 	var r *gin.Engine = gin.Default()
+
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
@@ -36,6 +38,8 @@ func main() {
 	addAdminUser(e)
 
 	controllers.Config(e, r)
+
+	r.Use(cors.Default())
 	r.Run()
 
 }
