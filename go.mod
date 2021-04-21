@@ -7,6 +7,7 @@ require (
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.3
 	github.com/google/wire v0.5.0
+	github.com/itsjamie/gin-cors v0.0.0-20160420130702-97b4a9da7933 // indirect
 	gopkg.in/yaml.v2 v2.2.8
 	gorm.io/driver/postgres v1.0.8
 	gorm.io/gorm v1.21.6

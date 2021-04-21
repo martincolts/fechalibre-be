@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"net/http"
 
 	"tincho.example/controllers/middlewares"
 	"tincho.example/injector"
@@ -17,6 +18,7 @@ func Config(e *injector.Event, r *gin.Engine) {
 	public := r.Group("/public")
 	{
 		public.GET("/ping", services.Ping())
+		public.OPTIONS("/login", preflight)
 		public.POST("/login", login(e))
 	}
 
@@ -38,4 +40,10 @@ func Config(e *injector.Event, r *gin.Engine) {
 			c.JSON(200, gin.H{"data": "you are admin", "user": user})
 		})
 	}
+}
+
+func preflight(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
+	c.Header("Access-Control-Allow-Headers", "access-control-allow-origin, access-control-allow-headers")
+	c.JSON(http.StatusOK, struct{}{})
 }
