@@ -40,6 +40,7 @@ func main() {
 	controllers.Config(e, r)
 
 	r.Use(CORS())
+	r.Use(CORSMiddleware())
 
 	r.Run()
 
