@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"tincho.example/controllers"
 	"tincho.example/database"
@@ -40,7 +41,7 @@ func main() {
 	controllers.Config(e, r)
 
 	r.Use(CORS())
-	r.Use(CORSMiddleware())
+	r.Use(cors.Default())
 
 	r.Run()
 
