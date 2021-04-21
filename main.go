@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -40,8 +41,17 @@ func main() {
 
 	controllers.Config(e, r)
 
-	r.Use(CORS())
-	r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"PUT", "PATCH"},
+		AllowHeaders:     []string{"Content-Type"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		AllowOriginFunc: func(origin string) bool {
+			return true
+		},
+		MaxAge: 12 * time.Hour,
+	}))
 
 	r.Run()
 
