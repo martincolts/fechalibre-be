@@ -21,6 +21,6 @@ var adminPlayer database.Player = database.Player{
 func addAdminUser(event *injector.Event) {
 	playerService := event.GetPlayerService()
 	if player, _ := playerService.GetPlayerByUsername(adminPlayer.Username); player == nil {
-		playerService.Insert(&adminPlayer)
+		playerService.InsertAdmin(&adminPlayer)
 	}
 }

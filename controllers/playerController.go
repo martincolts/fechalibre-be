@@ -11,19 +11,25 @@ import (
 func insertPlayer(e *injector.Event) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		var player database.Player
-		c.BindJSON(&player)
-		result, error := e.GetPlayerService().Insert(&player)
-		if error != nil {
-			c.JSON(409, gin.H{"error": error})
+		ok := c.BindJSON(&player)
+		if ok != nil {
+			c.AbortWithStatusJSON(400, gin.H{"error": "bad request"})
 		} else {
-			c.JSON(200, gin.H{"data": result})
+			result, error := e.GetPlayerService().Insert(&player)
+			if error != nil {
+				c.JSON(409, gin.H{"error": error})
+				return
+			} else {
+				c.JSON(200, gin.H{"data": result})
+				return
+			}
 		}
 	}
 }
 
 func getAllPlayers(e *injector.Event) func(c *gin.Context) {
 	return func(c *gin.Context) {
-		if error, players := e.GetPlayerService().GetAllPlayers(); error == nil {
+		if players, error := e.GetPlayerService().GetAllPlayers(); error == nil {
 			c.JSON(200, gin.H{"data": players})
 		} else {
 			c.JSON(409, gin.H{"errors": error})
@@ -38,7 +44,7 @@ func getPlayerById(e *injector.Event) func(c *gin.Context) {
 		if intId, error := strconv.Atoi(id); error != nil {
 			c.JSON(400, gin.H{"errors": "the Id is not an string"})
 		} else {
-			if error, players := e.GetPlayerService().GetPlayerById(intId); error == nil {
+			if players, error := e.GetPlayerService().GetPlayerById(intId); error == nil {
 				c.JSON(200, gin.H{"data": players})
 			} else {
 				c.JSON(409, gin.H{"errors": error})

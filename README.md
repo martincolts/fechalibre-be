@@ -34,3 +34,5 @@ correrlo localmente
 ```
 ./tincho.example conf-dev.yam
 ```
+
+## Tests

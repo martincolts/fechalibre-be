@@ -12,6 +12,7 @@ func NewPlayerRepo(db *Database) *PlayerRepo {
 
 func (pr *PlayerRepo) Insert(player *Player) (*Player, error) {
 	p := *player
+	p.Password = "1234"
 	p.Created = time.Now().Unix()
 	result := pr.database.db.Create(&p)
 	if result.Error == nil {
@@ -21,21 +22,35 @@ func (pr *PlayerRepo) Insert(player *Player) (*Player, error) {
 	}
 }
 
-func (pr *PlayerRepo) GetAllPlayers() (error, *[]Player) {
-	var players []Player
-	if result := pr.database.db.Find(&players); result.Error == nil {
-		return nil, &players
+func (pr *PlayerRepo) InsertAdmin(player *Player) (*Player, error) {
+	p := *player
+	p.Created = time.Now().Unix()
+	result := pr.database.db.Create(&p)
+	if result.Error == nil {
+		return &p, nil
 	} else {
-		return result.Error, nil
+		return nil, result.Error
 	}
 }
 
-func (pr *PlayerRepo) GetPlayerById(id int) (error, *Player) {
+func (pr *PlayerRepo) GetAllPlayers() (*[]Player, error) {
+	var players []Player
+	var playerToReturn []Player
+	if result := pr.database.db.Find(&players); result.Error == nil {
+		copyPlayers(players, &playerToReturn)
+		return &playerToReturn, nil
+	} else {
+		return nil, result.Error
+	}
+}
+
+func (pr *PlayerRepo) GetPlayerById(id int) (*Player, error) {
 	var players Player
 	if result := pr.database.db.Find(&players, id); result.Error == nil {
-		return nil, &players
+		players.Password = ""
+		return &players, nil
 	} else {
-		return result.Error, nil
+		return nil, result.Error
 	}
 }
 
@@ -45,5 +60,22 @@ func (pr *PlayerRepo) GetPlayerByUsername(username string) (*Player, error) {
 		return &player, nil
 	} else {
 		return nil, result.Error
+	}
+}
+
+func copyPlayers(players []Player, toCopy *[]Player) {
+	for _, player := range players {
+		newPlayer := Player{
+			Id:        player.Id,
+			Created:   player.Created,
+			Birthdate: player.Birthdate,
+			Name:      player.Name,
+			Lastname:  player.Lastname,
+			DNI:       player.DNI,
+			Password:  "",
+			Role:      player.Role,
+			Username:  player.Username,
+		}
+		*toCopy = append(*toCopy, newPlayer)
 	}
 }

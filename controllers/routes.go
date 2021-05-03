@@ -27,14 +27,17 @@ func Config(e *injector.Event, r *gin.Engine) {
 	{
 		private.GET("/validToken", services.Ping())
 		private.POST("/category", InsertCategory(e))
-		private.POST("/player", insertPlayer(e))
+
 		private.GET("/player/:id", getPlayerById(e))
 		private.GET("/player", getAllPlayers(e))
+
+		private.GET("/menuItems", getMenuItems())
 	}
 
 	admin := r.Group("/admin")
 	admin.Use(middlewares.AdminAuthorize())
 	{
+		admin.POST("/player", insertPlayer(e))
 		admin.GET("/verify", func(c *gin.Context) {
 			user, _ := security.GetUserFromToken(c)
 			c.JSON(200, gin.H{"data": "you are admin", "user": user})

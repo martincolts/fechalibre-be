@@ -8,11 +8,11 @@ func NewCategoryRepo(db *Database) *CategoryRepo {
 	return &CategoryRepo{database: db}
 }
 
-func (cr *CategoryRepo) Insert(category *Category) (error, *Category) {
+func (cr *CategoryRepo) Insert(category *Category) (*Category, error) {
 	result := cr.database.db.Create(category)
 	if result.Error == nil {
-		return nil, category
+		return category, nil
 	} else {
-		return result.Error, nil
+		return nil, result.Error
 	}
 }
