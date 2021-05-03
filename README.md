@@ -15,7 +15,7 @@ Buscar las dependencias
 
 ```
 go mod tidy
-'''
+```
 
 El proyecto se buildea con el siguiente commando/
 
@@ -31,8 +31,11 @@ Una vez buildeado se corre con el siguiente commando
 ```
 
 correrlo localmente 
+
 ```
 ./tincho.example conf-dev.yam
 ```
 
 ## Tests
+
+Tests? a donde vamos no hay tests
