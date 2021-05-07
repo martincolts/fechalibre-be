@@ -32,6 +32,7 @@ func Config(e *injector.Event, r *gin.Engine) {
 		private.GET("/player", getAllPlayers(e))
 
 		private.GET("/menuItems", getMenuItems())
+		private.PUT("updatePassword", updatePassword(e))
 	}
 
 	admin := r.Group("/admin")

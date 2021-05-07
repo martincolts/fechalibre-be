@@ -44,7 +44,7 @@ func (pr *PlayerRepo) GetAllPlayers() (*[]Player, error) {
 	}
 }
 
-func (pr *PlayerRepo) GetPlayerById(id int) (*Player, error) {
+func (pr *PlayerRepo) GetPlayerById(id int64) (*Player, error) {
 	var players Player
 	if result := pr.database.db.Find(&players, id); result.Error == nil {
 		players.Password = ""
@@ -58,6 +58,14 @@ func (pr *PlayerRepo) GetPlayerByUsername(username string) (*Player, error) {
 	var player Player
 	if result := pr.database.db.Where("username = ?", username).First(&player); result.Error == nil {
 		return &player, nil
+	} else {
+		return nil, result.Error
+	}
+}
+
+func (pr *PlayerRepo) UpdatePassword(newPassword string, username string) (*Player, error) {
+	if result := pr.database.db.Model(&Player{}).Where("username = ?", username).Update("password", newPassword); result.Error == nil {
+		return pr.GetPlayerByUsername(username)
 	} else {
 		return nil, result.Error
 	}
