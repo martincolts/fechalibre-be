@@ -55,10 +55,10 @@ func updatePassword(e *injector.Event) func(c *gin.Context) {
 			c.AbortWithStatusJSON(400, gin.H{"errors": "token is not correct"})
 		}
 
-		if player, error := playerService.UpdatePassword(payload, token.Username); error != nil {
+		if _, error := playerService.UpdatePassword(payload, token.Username); error != nil {
 			c.AbortWithStatusJSON(500, gin.H{"errors": "error updating player"})
 		} else {
-			c.JSON(200, gin.H{"data": player})
+			c.JSON(200, gin.H{"data": "Contraseña actualizada correctamente"})
 			return
 		}
 
